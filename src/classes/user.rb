@@ -2,10 +2,10 @@ require 'sequel'
 require_relative '../modules/database'
 
 class User
-  attr_reader :name, :role
+  attr_reader :name, :role, :student_id, :email
   def initalize(db)
     @db = db
-    @id = ""
+    @student_id = ""
     @email = ""
     @name = ""
     @password = ""

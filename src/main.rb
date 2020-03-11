@@ -2,7 +2,7 @@ require_relative 'modules/database'
 require_relative 'classes/user'
 require_relative 'classes/log'
 require_relative 'modules/role_check'
-
+require 'io/console'
 require_relative 'modules/loops'
 
 db = initialize_database
@@ -35,8 +35,12 @@ class MainLoop
   def password(error=nil)
     p 'getting password'
     @confirmed = check_password(@user)
+    @confirmed ? (@error = nil; @current = 'menu') : (puts @error; sleep(2))
   end
 
+  def show_menu(role)
+    puts @role
+  end
 
   def run_loops
     loop do
@@ -47,6 +51,9 @@ class MainLoop
         @error = login_loop(@error)
       when 'password'
         password(@error)
+      when 'menu'
+        show_menu(@role)
+        break
       else
         p 'something went wrong'
         break
@@ -55,4 +62,5 @@ class MainLoop
     end
   end
 end
+
 MainLoop.new(db).run_loops

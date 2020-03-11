@@ -41,8 +41,10 @@ module Loops
   def check_password(error)
     Screen.clear
     puts "Welcome #{@user.name}: Please enter your password"
-    pw = gets.chomp
+    pw = STDIN.noecho(&:gets).chomp
     @user.check_password(pw) ? @current = 'menu' : @error = "Incorrect Password Supplied"
-
+    return @error
   end
+
+  def menu
 end
