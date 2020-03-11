@@ -11,6 +11,7 @@ def create_database
 
   db.create_table :users do
     primary_key :id
+    Integer :student_id
     String :name
     String :role
     String :password
@@ -28,14 +29,19 @@ def create_database
   end
 
   puts "Woah! Looks like you've not run this before.. lets get some information!"
-  db[:users].insert(:name => "admin", :email => "admin", :password => "password")
+  db[:users].insert(:name => "admin", :email => "admin", :password => "password", :role => 'TEACHER')
+  db[:users].insert(:name => "student", :email => "student@email.com", :password => "password", :role => 'STUDENT', :student_id => 1)
 
 end
-
 def find_user(login, role=nil)
   puts login
   puts role
-  user = @db[:users].first(:email => login)
-  puts user
-  return role.nil? ? @db[:users].first(:id => login) : @db[:users].first(:email => login)
+  if role == 'TEACHER'
+    user = @db[:users].first(:email => login)
+    puts "Teacher here"
+  elsif role == 'STUDENT'
+    puts "Student Here"
+    user = @db[:users].first(:student_id => login)
+  end
+  return user
 end

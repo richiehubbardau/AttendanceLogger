@@ -1,14 +1,15 @@
 require_relative 'modules/database'
 require_relative 'classes/user'
 require_relative 'classes/log'
-require_relative 'modules/role_check'
 require 'io/console'
 require_relative 'modules/loops'
+require_relative 'modules/menu'
 
 db = initialize_database
 
 class MainLoop
   include Loops
+  include UserMenu
   def initialize(db)
     @db = db
     @user = nil
@@ -25,7 +26,8 @@ class MainLoop
   def login_loop(error)
     p 'login loop'
     @user = login(error)
-    @user.nil? ? (puts @error; sleep(2)) : @current = 'password'; @error = nil
+    p @user
+    @user.name.nil? ? (puts @error; sleep(2)) : @current = 'password'; @error = nil
   end
 
   def logout_loop
@@ -34,15 +36,12 @@ class MainLoop
 
   def password(error=nil)
     p 'getting password'
-    @confirmed = check_password(@user)
+    @confirmed, @error = check_password(@user)
     @confirmed ? (@error = nil; @current = 'menu') : (puts @error; sleep(2))
   end
 
-  def show_menu(role)
-    puts @role
-  end
-
   def run_loops
+    pw_count = 0
     loop do
       case @current
       when 'welcome'
@@ -50,9 +49,16 @@ class MainLoop
       when 'login'
         @error = login_loop(@error)
       when 'password'
+        pw_count += 1
         password(@error)
+        if pw_count > 5
+          @current = 'exit'
+          puts "Guessed PW too many times. Closing"
+        end
       when 'menu'
         show_menu(@role)
+      when 'exit'
+        puts "Goodbye."
         break
       else
         p 'something went wrong'
