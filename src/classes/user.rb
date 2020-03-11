@@ -2,30 +2,44 @@ require 'sequel'
 require_relative '../modules/database'
 
 class User
-  def initalize
+  attr_reader :name, :role
+  def initalize(db)
+    @db = db
     @id = ""
     @email = ""
     @name = ""
     @password = ""
     @role = ""
   end
-  def populate_user(id, role)
-    @user = find_user(email, role)
+  def populate_user(login, role)
+    @user = find_user(login, role)
+    p @user
+    p 2
     @id = @user[:id]
     @name = @user[:name]
     @password = @user[:password]
     @role = role
+
+    p @password
+  end
+
+  def check_password(pw)
+    return pw == @password
   end
 end
 
 class Teacher < User
-  def initialize(email)
-    populate_user(email)
+  def initialize(db, login)
+    @db = db
+    @role = 'TEACHER'
+    populate_user(login, @role)
   end
 end
 
 class Student < User
-  def initalize(id)
-    populate_user(id)
+  def initialize(db, login)
+    @db = db
+    @role = 'STUDENT'
+    populate_user(login, @role)
   end
 end

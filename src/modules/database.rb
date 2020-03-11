@@ -27,8 +27,15 @@ def create_database
     DateTime :sign_out_dateTime
   end
 
+  puts "Woah! Looks like you've not run this before.. lets get some information!"
+  db[:users].insert(:name => "admin", :email => "admin", :password => "password")
+
 end
 
-def find_user(id)
-  return db[:users].first(:id => id)
+def find_user(login, role=nil)
+  puts login
+  puts role
+  user = @db[:users].first(:email => login)
+  puts user
+  return role.nil? ? @db[:users].first(:id => login) : @db[:users].first(:email => login)
 end

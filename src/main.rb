@@ -1,41 +1,52 @@
-require_relative 'modules/database.rb'
-require_relative 'classes/user.rb'
-require_relative 'classes/log.rb'
-require_relative 'modules/role_check.rb'
+require_relative 'modules/database'
+require_relative 'classes/user'
+require_relative 'classes/log'
+require_relative 'modules/role_check'
 
-require_relative 'modules/loops.rb'
+require_relative 'modules/loops'
 
 db = initialize_database
 
 class MainLoop
-
-  def initialize
+  include Loops
+  def initialize(db)
+    @db = db
     @user = nil
     @current = 'welcome'
     @error = nil
+    @role = nil
   end
-  def welcome_loop(error=nil)
+  def welcome_loop(error)
     p 'welcome loop'
-    @role = welcome(error)
-    @role.nil? ? (puts @error) : @current = 'login'
+    @role, @error = welcome(error)
+    @role.nil? ? (puts @error; sleep(2)) : @current = 'login'; @error = nil
   end
 
-  def login_loop
-
+  def login_loop(error)
+    p 'login loop'
+    @user = login(error)
+    @user.nil? ? (puts @error; sleep(2)) : @current = 'password'; @error = nil
   end
 
   def logout_loop
 
   end
 
+  def password(error=nil)
+    p 'getting password'
+    @confirmed = check_password(@user)
+  end
+
+
   def run_loops
     loop do
       case @current
       when 'welcome'
-        welcome_loop(@error)
+        @error = welcome_loop(@error)
       when 'login'
-        login_loop
-        break
+        @error = login_loop(@error)
+      when 'password'
+        password(@error)
       else
         p 'something went wrong'
         break
@@ -44,4 +55,4 @@ class MainLoop
     end
   end
 end
-MainLoop.new().run_loops
+MainLoop.new(db).run_loops
