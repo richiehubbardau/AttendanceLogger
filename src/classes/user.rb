@@ -14,7 +14,6 @@ class User
   end
   def populate_user(login, role)
     @user = find_user(login, role)
-    puts @user
     if @user.nil? == false
       @id = @user[:id]
       @name = @user[:name]
@@ -37,8 +36,6 @@ class User
   end
 
   def check_password(pw)
-    puts pw
-    puts @password
     return pw == @password
   end
 end
@@ -61,9 +58,6 @@ class Student < User
     @db = db
     @role = 'STUDENT'
     user = populate_user(login, @role)
-    puts 12312
-    puts user
-    puts user.role
     if user.role != @role
       puts "Teacher Trying to Access Student Commands! Authorities have been notified!"
       user.clear

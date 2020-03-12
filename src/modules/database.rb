@@ -47,7 +47,6 @@ end
 def add_user(db, name, role, student_id = nil, email = nil)
   if role == 'TEACHER'
     duplicate = find_user(email, role)
-    puts "Here: #{duplicate}"
     if duplicate.nil?
       db[:users].insert(:name => name, :role => role, :email => email, :password => "teacher1234", :first_run => true, :active => true)
       return true, nil
@@ -57,7 +56,6 @@ def add_user(db, name, role, student_id = nil, email = nil)
 
   elsif role == 'STUDENT'
     duplicate = find_user(student_id, role)
-    puts "Here: #{duplicate}"
     if duplicate.nil?
       db[:users].insert(:name => name, :role => role, :student_id => student_id, :password => "student1234", :first_run => true, :active => true)
       return true, nil

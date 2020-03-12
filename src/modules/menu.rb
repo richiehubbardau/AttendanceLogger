@@ -11,8 +11,12 @@ module UserMenu
       puts "ADDUSER - To add a user"
       puts "DELUSER - To remove a user"
       puts "STATISTICS - To show user statistics"
+      puts "LOGOUT - To Return to Login Window"
       puts "EXIT - To Close Program"
       case gets.chomp.upcase
+      when 'LOGOUT'
+        @current = 'welcome'
+        return
       when 'EXIT'
         @current = 'EXIT'
         return
@@ -83,7 +87,6 @@ module UserMenu
               sleep 3
             end
           end
-
         end
 
       when 'REMOVEUSER'

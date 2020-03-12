@@ -4,7 +4,6 @@ require_relative 'helpers'
 module Loops
   def welcome(error)
     Screen.clear
-    p error
     puts "Welcome to your Attendance Logger"
     puts "Are you a student or teacher?"
     error.nil? ? nil : (puts error)

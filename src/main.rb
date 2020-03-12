@@ -18,13 +18,11 @@ class MainLoop
     @role = nil
   end
   def welcome_loop(error)
-    p 'welcome loop'
     @role, @error = welcome(error)
     @role.nil? ? (puts @error; sleep(2)) : @current = 'login'; @error = nil
   end
 
   def login_loop(error)
-    p 'login loop'
     @user = login(error)
     p @user
     @user.name.nil? ? (puts @error; sleep(2)) : @current = 'password'; @error = nil
@@ -35,7 +33,6 @@ class MainLoop
   end
 
   def password(error=nil)
-    p 'getting password'
     @confirmed, @error = check_password(@user)
     @confirmed ? (@error = nil; @current = 'menu') : (puts @error; sleep(2))
   end
