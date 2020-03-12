@@ -1,8 +1,5 @@
 R3	Provide full attribution to referenced sources (where applicable).	 
 
-R4	Provide a link to your source control repository	 
- 	Design a Software Development Plan for a terminal application. The following requirements provide details of what needs to be included in this plan,	
-
 R7	Develop an outline of the user interaction and experience for the application.
 
 Your outline must include:
@@ -66,63 +63,138 @@ This will all be published to a LOCAL or REMOTE database depending on the config
 
 These features are split between the admin users (Teachers) and the Students. While Students may have access to some features, such as retrieving statistics in regards to their attendance, they will only be able to see this information for themselves.
 
-### Teacher/Admin
+### Login System
 
-#### Add New User / Remove User
+The first feature is the most important, that is an authentication system which will give security around being able to modify records.
 
-This will allow the creation of new users, you will be required to supply the following information:
+Examples: 
+
+* Only a teacher should be able to add and remove students.
+* Only a student should be able to sign in & out for attendance
+* Both a student and teacher should be able to view attendance, but only the teacher should be able to view everyone
+* A student shouldn't be able to modify their attendance record
+
+This login system will utilise a database where the username and passwords will be stored, the passwords are currently stored in plain text and in a local database.
+
+Going forward a remote database would be created and a password hash used for better security.
+
+The login system will reject a user if the password is typed incorrectly more than 5 times
+
+The login system adds security to the application and allows different interactions based on the users role
+
+### Local Database
+
+The terminal application utilises a local SQLite3 DB which is stored in the root directory of the application and accessed using the <sequal> gem which is a sql wrapper which allows easier interaction between multiple databases without the need to make coding changes should the database be changed.
+
+Upon starting of the application for the first time, the database is setup and a default admin user is created along with any configuration settings.
+
+The database is used so the data is persistent and can be retrieved each time the application is run
+
+#### Add New User / Remove User / Disable User - Teacher Only
+
+Once a teacher has logged into the system they will be given menu options to control the application
+
+Only teachers will have the ability to add and remove users from the local database.
+
+When a new user is being created, the following information is required which is stored following prompts from the terminal
+This will allow the creation of new users inside the local database, you will be required to supply the following information:
+
 * Name
 * Role Student/Teacher
 
 If Student:
 * Student ID
-* Student Email
 
 If Teacher:
 
-* Username
 * Email Address
 
-A teacher will be able to disable a student & remove all students data.
+A teacher will be able to disable a student which will remove their ability to login & delete to remove all of the students data.
 
-Upon first login, the user will be required to set a password for future interactions.
+When a user logs in for the first time they will be required to change their password for security reasons, currently there isn't a way to reset this password should they forget it
 
-#### Show Statistics for Individual Students and All students
+#### Show Attendance Statistics - Both Student & Teacher
 
-Those with an admin role will be able to display usage statistics for each student, or for all students at once.
+Students & Teachers will have the abliity to see their attendance records.
 
-These statistics will include:
- 
- * Days attended
- * Days missed
- * Attendance Percentage
+While a student can only recall their own records a teacher has the ability to recall any individual student records
+
+This will show all days attended and what time the student/students logged in & the duration they attended for the day.
+
+Going forward, a student and teacher will be able to see their attendance percentage, by utilizing a yet-to-be created module to retrive school days, removing any public holidays & weekends from its calculations.
+
+The statistics will be shown by calling all attendance logs for the student from the SQLite Database and printing each day to the screen.
  
  #### Force Sign-in/Modify Current Sign-ins 
  
  A teacher will be able to backdate previous sign-ins, along with changing existing ones if any errors are found.
  They will also be able too approve any outstanding sign-ins from students that require a manual authorisation.
  
+## User Interaction
 
-### Students 
+Users will be guided through an onscreen display for the menu options on which they are available to access.
 
-#### Sign In/Out with Student ID
+This will start with a login screen, where they can select either a teacher or student.
 
-A student will be able to easily sign in/out based on todays date/time and a simple action after confirming their password.
+Once the role has been selected, the required login details are requested on screen and the user needs to enter a correct username & password to be granted access to the system.
 
-A student can overwrite the date/time but these changes won't take effect until a teacher has approved.
+Once authenticated a menu is displayed with all options that the user has access too.
 
-#### Show statistics for own student ID
+Teacher has the following options:
 
-These statistics will include:
- 
- * Days attended
- * Days missed
- * Attendance Percentage
- 
- A student will only be able to view their own statistics.
- 
-#### Save to database - SQlite (Local)
+1. ADDUSER
 
-In order for changes to be persistent and the same over multiple machines, we would be utilizing a remote database.
+This will take them through an onscreen walkthrough for creating a new user, they can select either teacher or student that they are creating and will be required to supply the correct information for each user.
 
-For the purpose of this example, we won't be pushing data to a remote database, but will be storing in a local database saved on your local machine.
+A duplicate user check is done to ensure a student/teacher isn't entered into the system more than once - an error is returned and moved back to the menu if this is the case.
+
+For teacher, the email is checked via an in-built method to ensure that it contains a valid email address & for the student the student ID is checked to ensure that it is a valid Integer, should these tests fail they are asked to supply new details.
+
+2. DELUSER
+
+This will allow them to go through and select a valid user, it will check to see if they want to just disable the user, or delete the user and associated logins.
+
+A confirmation screen before deleting will require the user to type delete + student number/admin email
+
+The Student Menu will have the following options:
+
+1. SIGNIN
+
+This will automatically sign the student in for the day, at this exact time and create a new entry in the local database for the day.
+
+A student will be able to login only once for the day, if they try a second time an error will show that they have already logged in and with the time that they logged in.
+
+The times will use the inbuilt DateTime function & will use local machine time.
+
+2. SIGNOUT
+
+This will find the entry for the day, if it exists and add a sign out time which is current to when the user selected signout.
+
+A student can signout multiple times each time changing the signout time to when they leave.
+
+An error will occur if there is no signin found for the day and displayed to the screen.
+
+For both user types, the following command is available:
+
+3. STATISTICS
+
+For a user this will display their current login/logout statistics for each day, recalling them from the database and displaying them directly in the terminal.
+
+If a teacher requests statistics, it is required to then enter the students ID in order to be able to fetch that students results.
+
+4. LOGOUT
+
+All users will have a logout option, this is so the terminal can stay active and another user will have the ability to sign out.
+
+When signed out, variables reset and login credentials are required in order to proceed.
+
+5. EXIT
+
+Should the user be finished with the terminal app, this will safely exit.
+
+## Gems Used in this package
+
+[sqlite3](https://sqlite3.gem) - This gem allows us to connect to an SQLite DB
+[Sequel](https://sequel.gem) - This is a gem which allows easy manipulation of the sql database without the need of injecting SQL code. This gem would allow the same code to be used and connect to multiple databases, but for the purpose of this application it is connected to a local SQLite3 Database.
+[colorize](https://colourize.gem) - This is used to add colour to the console! Helps things look pretty & errors to stand out.
+[whirly](https://whirly.gem) - This Gem has been used to add a waiting icon when messages are returned
