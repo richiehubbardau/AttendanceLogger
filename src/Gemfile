@@ -11,3 +11,5 @@ gem "sequel", "~> 5.30"
 gem "sqlite3", "~> 1.4"
 
 gem "colorize", "~> 0.8.1"
+
+gem "whirly", "~> 0.2.6"

@@ -16,6 +16,8 @@ def create_database
     String :role
     String :password
     String :email
+    Boolean :active
+    Boolean :first_run
   end
 
   # Creating Table Structure For the Attendance Log
@@ -29,19 +31,40 @@ def create_database
   end
 
   puts "Woah! Looks like you've not run this before.. lets get some information!"
-  db[:users].insert(:name => "admin", :email => "admin", :password => "password", :role => 'TEACHER')
-  db[:users].insert(:name => "student", :email => "student@email.com", :password => "password", :role => 'STUDENT', :student_id => 1)
+  db[:users].insert(:name => "admin", :email => "admin", :password => "password", :role => 'TEACHER', :active => true, :first_run => true)
+  db[:users].insert(:name => "student", :email => "student@email.com", :password => "password", :role => 'STUDENT', :student_id => 1, :active => true, :first_run => true)
 
 end
 def find_user(login, role=nil)
-  puts login
-  puts role
   if role == 'TEACHER'
     user = @db[:users].first(:email => login)
-    puts "Teacher here"
   elsif role == 'STUDENT'
-    puts "Student Here"
     user = @db[:users].first(:student_id => login)
   end
   return user
+end
+
+def add_user(db, name, role, student_id = nil, email = nil)
+  if role == 'TEACHER'
+    duplicate = find_user(email, role)
+    puts "Here: #{duplicate}"
+    if duplicate.nil?
+      db[:users].insert(:name => name, :role => role, :email => email, :password => "teacher1234", :first_run => true, :active => true)
+      return true, nil
+    else
+      return false, "Duplicate Email"
+    end
+
+  elsif role == 'STUDENT'
+    duplicate = find_user(student_id, role)
+    puts "Here: #{duplicate}"
+    if duplicate.nil?
+      db[:users].insert(:name => name, :role => role, :student_id => student_id, :password => "student1234", :first_run => true, :active => true)
+      return true, nil
+    else
+      return false, "Duplicate Student ID"
+    end
+  else
+    return false
+  end
 end
