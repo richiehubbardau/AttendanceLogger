@@ -20,6 +20,7 @@ class User
       @password = @user[:password]
       @role = role
       @student_id = @user[:student_id]
+      @email = @user[:email]
       @first_run = @user[:first_run]
     else
       clear
