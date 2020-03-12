@@ -26,10 +26,19 @@ To use this software please enter the following commands into your terminal.
 
 Nb. You must have Ruby installed before attempting to run this application.
 
-    git clone https://github.com/richiehubbardau/AttendanceLogger.git
-    ruby src/main.rb
+For Mac Installation:
+
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/richiehubbardau/AttendanceLogger/master/install-mac.sh)"
+    
+For Windows Installation:
+
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/richiehubbardau/AttendanceLogger/master/install-win.sh)"
 
 On first run, application will create a new database and a default user: admin/password
+
+After initial install from root direction please run
+
+    ruby main.rb
 
 Once logged in, you will be guided to the different sections, you must at first login as a teacher to be able to create students.
 
