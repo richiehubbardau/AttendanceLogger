@@ -201,3 +201,47 @@ Should the user be finished with the terminal app, this will safely exit.
 [colorize](https://colourize.gem) - This is used to add colour to the console! Helps things look pretty & errors to stand out.
 
 [whirly](https://whirly.gem) - This Gem has been used to add a waiting icon when messages are returned
+
+## Design & Implementation
+
+The idea for this project came from forgetting to sign into the class each day that I was in attendance & to try and remove the need for paper.
+
+I've designed this with ease of use in mind, so that the end user can easily login and mark themselves as attended.
+
+While designing, all features have been added to my trello board [here](https://link.to.trello) and have tasks have been marked off as completed.
+
+The implementation was done by splitting each section up into different functions for each menu, allowing the login system to effectively moderate what each role has the ability to complete.
+
+This has allowed for a neat code system, all ran from a single file while menu options can be easily changed & modified in the relevant class/module.
+
+At any time an error is raised, this is displayed on the screen and showed back to the user.
+
+A flowchart was created, to easily see the design process and to ensure that all options have been covered and coded. This flowchat is located [here](link.to.flow.chart)
+
+As you can see it can easily be opened, ran and closed quickly for those students who are using the software for its intended purpose, while also giving the admin configuration options to easily add new students into  the database.
+
+I've chosen a local database due to hosting difficulties, for a professional installation a remote hosting facility would be used and a postgres database recommended.
+
+## File Structure
+
+<pre>├── README.md
+├── StatementOfPurpose.MD
+├── database.db
+├── docs
+│   └── help.md
+├── ppt
+│   └── AttendanceLogger.pptx
+└── src
+    ├── Gemfile
+    ├── Gemfile.lock
+    ├── classes
+    │   ├── log.rb
+    │   └── user.rb
+    ├── config
+    ├── main.rb
+    ├── modules
+    │   ├── database.rb
+    │   ├── helpers.rb
+    │   ├── loops.rb
+    │   └── menu.rb
+    └── test.csv</pre>
