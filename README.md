@@ -225,7 +225,9 @@ This has allowed for a neat code system, all ran from a single file while menu o
 
 At any time an error is raised, this is displayed on the screen and showed back to the user.
 
-A flowchart was created, to easily see the design process and to ensure that all options have been covered and coded. This flowchat is located [here](link.to.flow.chart)
+A flowchart was created, to easily see the design process and to ensure that all options have been covered and coded. 
+ 
+![](docs/flow-chart.png)
 
 As you can see it can easily be opened, ran and closed quickly for those students who are using the software for its intended purpose, while also giving the admin configuration options to easily add new students into  the database.
 
