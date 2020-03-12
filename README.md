@@ -195,6 +195,9 @@ Should the user be finished with the terminal app, this will safely exit.
 ## Gems Used in this package
 
 [sqlite3](https://sqlite3.gem) - This gem allows us to connect to an SQLite DB
+
 [Sequel](https://sequel.gem) - This is a gem which allows easy manipulation of the sql database without the need of injecting SQL code. This gem would allow the same code to be used and connect to multiple databases, but for the purpose of this application it is connected to a local SQLite3 Database.
+
 [colorize](https://colourize.gem) - This is used to add colour to the console! Helps things look pretty & errors to stand out.
+
 [whirly](https://whirly.gem) - This Gem has been used to add a waiting icon when messages are returned
