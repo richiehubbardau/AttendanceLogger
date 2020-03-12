@@ -42,7 +42,11 @@ module Loops
     puts "Welcome #{@user.name}: Please enter your password"
     pw = STDIN.noecho(&:gets).chomp
     pw_check = @user.check_password(pw)
-
+    if @user.first_run
+      puts "You need to change password"
+      change_password(@role, @student_id, @email)
+      puts "Changing Password"
+    end
     pw_check ? @current = 'menu' : @error = "Incorrect Password Supplied"
 
     return pw_check, @error

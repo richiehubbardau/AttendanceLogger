@@ -66,3 +66,28 @@ def add_user(db, name, role, student_id = nil, email = nil)
     return false
   end
 end
+
+def change_password(role, student_id, email)
+  current = nil
+  if role == 'STUDENT'
+    @db[:users].where(:student_id => student_id).update(:password => 'newpassword')
+    current = find_user(student_id, role)
+  elsif role == 'TEACHER'
+    @db[:users].where(:email => email).update(:password => 'newpassword')
+
+    puts "Finding current user"
+    current = find_user(email, role)
+
+    puts "trying to update"
+    puts current
+  else
+    return false
+  end
+
+    # posts.where(Sequel[:stamp] < Date.today - 7).update(state: 'archived')
+    # UPDATE posts SET state = 'archived' WHERE (stamp < '2010-07-07')
+  puts "Hereeee"
+  current.update(password: 'newpassword')
+  puts current
+  puts "got here"
+end
