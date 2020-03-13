@@ -1,25 +1,3 @@
-R3	Provide full attribution to referenced sources (where applicable).	 
-
-R7	Develop an outline of the user interaction and experience for the application.
-
-Your outline must include:
-- how the user will find out how to interact with / use each feature
-- how the user will interact with / use each feature
-- how errors will be handled by the application and displayed to the user	
- 
-R8	Develop a diagram which describes the control flow of your application. Your diagram must:
-- show the workflow/logic and/or integration of the features in your application for each feature.
-- utilise a recognised format or set of conventions for a control flow diagram, such as UML.	
- 
-R9	Develop an implementation plan which:
-- outlines how each feature will be implemented and a checklist of tasks for each feature
-- prioritise the implementation of different features, or checklist items within a feature
-- provide a deadline, duration or other time indicator for each feature or checklist/checklist-item
-
-Utilise a suitable project management platform to track this implementation plan
-
-> Your checklists for each feature should have at least 5 items.	 
-R10	Design help documentation which includes a set of instructions which accurately describe how to use and install the application.
 # Attendance Logger! Useful Application to record and retrieve students class attendance!
 
 To use this software please enter the following commands into your terminal.
@@ -29,14 +7,10 @@ Nb. You must have Ruby installed before attempting to run this application.
 For Mac Installation:
 
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/richiehubbardau/AttendanceLogger/master/install-mac.sh)"
-    
-For Windows Installation:
-
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/richiehubbardau/AttendanceLogger/master/install-win.sh)"
 
 On first run, application will create a new database and a default user: admin/password
 
-After initial install from root direction please run
+After initial install from src directory please run
 
     ruby main.rb
 
@@ -44,7 +18,7 @@ Once logged in, you will be guided to the different sections, you must at first 
 
 A local database will be created in the root directory called database.db
 
-# R5 Software Development Plan - Attendance Log
+# Software Development Plan - Attendance Log
 
 ## Statement of Purpose
 
@@ -68,7 +42,7 @@ Admins will be able to edit the default config, advising what days are included 
 
 This will all be published to a LOCAL or REMOTE database depending on the configuration file.
 
-## R6 Features
+## Features
 
 These features are split between the admin users (Teachers) and the Students. While Students may have access to some features, such as retrieving statistics in regards to their attendance, they will only be able to see this information for themselves.
 
