@@ -181,7 +181,7 @@ Should the user be finished with the terminal app, this will safely exit.
 
 [Sequel](https://github.com/jeremyevans/sequel) - This is a gem which allows easy manipulation of the sql database without the need of injecting SQL code. This gem would allow the same code to be used and connect to multiple databases, but for the purpose of this application it is connected to a local SQLite3 Database.
 
-[terminal-table](https://github.com/tj/terminal-table) - This is used to add colour to the console! Helps things look pretty & errors to stand out.
+[terminal-table](https://github.com/tj/terminal-table) - This is used to create an ascii table for the statistics.
 
 [whirly](https://rubygems.org/gems/whirly) - This Gem has been used to add a waiting icon when messages are returned
 
