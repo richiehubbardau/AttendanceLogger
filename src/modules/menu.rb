@@ -1,6 +1,7 @@
 require_relative 'helpers'
 require_relative 'database'
 require 'whirly'
+require 'terminal-table'
 
 module UserMenu
   def show_menu(user)
@@ -70,7 +71,11 @@ module UserMenu
             if student_id.is_a? Integer
               i = true
             else
-              puts "Please enter digits Only!"
+
+              Whirly.start spinner: 'dots' do
+                Whirly.status = "Please enter digits only!"
+                sleep 3
+              end
             end
           end
           adduser, error = add_user(@db, name, role, student_id, email)
@@ -119,37 +124,77 @@ module UserMenu
 
             puts "#{role} has been made inactive - to delete type DELETE else return anything to go back to menu"
 
-
-
             delete = gets.chomp.upcase
             if delete == 'DELETE'
               delete_user(user)
+              Whirly.start spinner: 'dots' do
+                Whirly.status = sign_out(@user.student_id, Date.today)
+                sleep 3
+              end
             end
           end
 
         end
       when 'STATISTICS'
-        puts "Will show some statistics here"
+        puts "Enter student ID which you wish to view login stats"
+        s_id = gets.chomp.to_i
+        user = find_user(role, s_id)
+        if !user.nil?
+          show_statistics(user[:student_id])
+          puts "Press enter to go back to menu"
+          gets.chomp
+        else
+          Whirly.start spinner: 'dots' do
+            Whirly.status = "Unable to locate user - please check student ID is correct"
+            sleep 3
+          end
+        end
       end
     elsif @role == 'STUDENT'
-      puts "Menu For Students"
+      puts "Student Menu!"
+      puts "SIGNIN - To sign in for the day"
+      puts "SIGNOUT - To Sign out for the day"
+      puts "STATISTICS - To show user statistics"
+      puts "LOGOUT - To Return to Login Window"
+      puts "EXIT - To Close Program"
       case gets.chomp.upcase
-      when 'EXIT'
-        puts "Gonna Exit Like its hot"
+
       when 'SIGNIN'
-        puts sign_in(@user.student_id, Date.today)
+        Whirly.start spinner: 'dots' do
+          Whirly.status = sign_in(@user.student_id, Date.today)
+          sleep 3
+        end
+
       when "SIGNOUT"
-        puts sign_out(@user.student_id, Date.today)
+        Whirly.start spinner: 'dots' do
+          Whirly.status = sign_out(@user.student_id, Date.today)
+          sleep 3
+        end
       when "STATISTICS"
-        puts "Teachers Menu!"
-        puts "ADDUSER - To add a user"
-        puts "DELUSER - To remove a user"
-        puts "STATISTICS - To show user statistics"
-        puts "LOGOUT - To Return to Login Window"
-        puts "EXIT - To Close Program"
+        show_statistics(@user.student_id)
+        puts "Press enter to go back to menu"
+        gets.chomp
+
+      when 'LOGOUT'
+        @current = 'welcome'
+        return
+      when 'EXIT'
+        @current = 'EXIT'
+        return
       end
     end
 
-  end
 
+  end
+  def show_statistics(student_id)
+    stats = get_logs(student_id)
+    rows = []
+    rows << ['Date', 'Sign-In Time', 'Sign-Out Time']
+
+    stats.each { |s| rows << [s[:date], s[:sign_in], s[:sign_out]] }
+    table = Terminal::Table.new :rows => rows
+    puts table
+      #stats.each { |s| puts "Date: #{s[:date]} Sign-In: #{s[:sign_in]} Sign-Out: #{s[:sign_out]}" }
+
+  end
 end

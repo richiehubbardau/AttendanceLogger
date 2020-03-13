@@ -29,11 +29,25 @@ def create_database
     String :date
     Integer :student_id
   end
-
-  puts "Woah! Looks like you've not run this before.. lets get some information!"
+  Whirly.start spinner: 'dots' do
+    Whirly.status = "Looks like you haven't run this before! Currently creating you a database .. hold on!"
+    sleep 3
+    Whirly.status = "Your default login for teacher is admin:password - please change on first use"
+    sleep 5
+  end
   db[:users].insert(:name => "admin", :email => "admin", :password => "password", :role => 'TEACHER', :active => true, :first_run => true)
   db[:users].insert(:name => "student", :email => "student@email.com", :password => "password", :role => 'STUDENT', :student_id => 1, :active => true, :first_run => true)
-
+  db[:logs].insert(:student_id => 1, :date => Date.today - 5, :sign_in => DateTime.now - 5.7, :sign_out => DateTime.now - 5)
+  db[:logs].insert(:student_id => 1, :date => Date.today - 4, :sign_in => DateTime.now - 4.7, :sign_out => DateTime.now - 4)
+  db[:logs].insert(:student_id => 1, :date => Date.today - 3, :sign_in => DateTime.now - 3.7, :sign_out => DateTime.now - 3)
+  db[:logs].insert(:student_id => 1, :date => Date.today - 2, :sign_in => DateTime.now - 2.7, :sign_out => DateTime.now - 2)
+  db[:logs].insert(:student_id => 1, :date => Date.today - 1, :sign_in => DateTime.now - 1.7, :sign_out => DateTime.now - 1)
+  db[:logs].insert(:student_id => 1, :date => Date.today, :sign_in => DateTime.now - 0.7, :sign_out => DateTime.now)
+  Whirly.start spinner: 'dots' do
+    Whirly.status = "Creating Sample Data for Student_ID #1"
+    sleep 3
+  end
+  return db
 end
 def find_user(login, role=nil)
   if role == 'TEACHER'
@@ -94,6 +108,11 @@ def find_log(user, date)
   puts date
   log = @db[:logs].first(:student_id => user, :date => date)
   return log
+end
+
+def get_logs(user)
+  logs = @db[:logs].where(:student_id => user)
+  return logs
 end
 
 def sign_in(user, date)
