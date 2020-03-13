@@ -24,10 +24,10 @@ def create_database
 
   db.create_table :logs do
     primary_key :id
-    Boolean :approved
-    Boolean :overwrite
-    DateTime :sign_in_dateTime
-    DateTime :sign_out_dateTime
+    DateTime :sign_in
+    DateTime :sign_out
+    String :date
+    Integer :student_id
   end
 
   puts "Woah! Looks like you've not run this before.. lets get some information!"
@@ -40,6 +40,8 @@ def find_user(login, role=nil)
     user = @db[:users].first(:email => login)
   elsif role == 'STUDENT'
     user = @db[:users].first(:student_id => login)
+    puts "Finding student"
+    puts user
   end
   return user
 end
@@ -77,5 +79,38 @@ def change_password(role, student_id, email, newpwd)
     @db[:users].where(:id => current[:id]).update(:password => newpwd, :first_run => false)
   else
     return false
+  end
+end
+
+def make_inactive(user)
+  @db[:users].where(:id => user[:id]).update(:active => false)
+end
+
+def delete_user(user)
+  @db[:users].where(:id => user[:id]).delete
+end
+
+def find_log(user, date)
+  puts date
+  log = @db[:logs].first(:student_id => user, :date => date)
+  return log
+end
+
+def sign_in(user, date)
+  if find_log(user, date).nil?
+    @db[:logs].insert(:student_id => user, :date => date, :sign_in => DateTime.now)
+    return "Successfully Signed In"
+  else
+    return "User Already Signed In for the day"
+  end
+end
+
+def sign_out(user, date)
+  log = find_log(user,date)
+  if log.nil?
+    return "User hasn't signed in for the day"
+  else
+    @db[:logs].where(:student_id => user, :date => date).update(:sign_out => DateTime.now)
+    return "Signed User Out At #{DateTime.now}"
   end
 end

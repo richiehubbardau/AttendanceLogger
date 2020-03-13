@@ -2,7 +2,7 @@ require 'sequel'
 require_relative '../modules/database'
 
 class User
-  attr_reader :name, :role, :student_id, :email, :first_run
+  attr_reader :name, :role, :student_id, :email, :first_run, :active
   def initalize(db)
     @db = db
     @student_id = ""
@@ -22,6 +22,7 @@ class User
       @student_id = @user[:student_id]
       @email = @user[:email]
       @first_run = @user[:first_run]
+      @active = @user[:active]
     else
       clear
       return self
@@ -36,6 +37,7 @@ class User
     @role = nil
     @student_id = nil
     @first_run = nil
+    @active = nil
   end
 
   def check_password(pw)

@@ -89,8 +89,45 @@ module UserMenu
           end
         end
 
-      when 'REMOVEUSER'
-        puts "Will remove a user here"
+      when 'DELUSER'
+        puts "Are you deleting a Teacher or Student?"
+        u_id = ""
+        loop do
+          role = gets.chomp.upcase
+          puts role
+          if role == 'TEACHER' or role == 'STUDENT'
+            puts "Please enter #{role == 'TEACHER' ? "teachers email" : "students ID"}"
+            u_id = gets.chomp
+            break
+          elsif role == 'EXIT'
+            break
+          else
+            puts "Please enter Teacher or Student - or type EXIT to go back to menu"
+          end
+        end
+        if role != 'EXIT'
+          puts role
+          if role == 'STUDENT'
+            user = find_user(role, u_id.to_i)
+          else
+            user = find_user(role, u_id)
+          end
+
+          puts user
+          if !user.nil?
+            make_inactive(user)
+
+            puts "#{role} has been made inactive - to delete type DELETE else return anything to go back to menu"
+
+
+
+            delete = gets.chomp.upcase
+            if delete == 'DELETE'
+              delete_user(user)
+            end
+          end
+
+        end
       when 'STATISTICS'
         puts "Will show some statistics here"
       end
@@ -100,11 +137,16 @@ module UserMenu
       when 'EXIT'
         puts "Gonna Exit Like its hot"
       when 'SIGNIN'
-        puts "Signing You In"
+        puts sign_in(@user.student_id, Date.today)
       when "SIGNOUT"
-        puts "signing you out"
-      when "HELP"
-        puts "Do some kinda help menu"
+        puts sign_out(@user.student_id, Date.today)
+      when "STATISTICS"
+        puts "Teachers Menu!"
+        puts "ADDUSER - To add a user"
+        puts "DELUSER - To remove a user"
+        puts "STATISTICS - To show user statistics"
+        puts "LOGOUT - To Return to Login Window"
+        puts "EXIT - To Close Program"
       end
     end
 

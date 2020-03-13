@@ -34,6 +34,13 @@ module Loops
       raise "Role should be Student or Teacher?!"
     end
     @user.nil? ? @error = "Unable to locate User" : @error = nil
+
+    if !@user.nil?
+      if !@user.active
+        @error = "Current User has been disabled. Please speak to your administrator"
+        @user = nil
+      end
+    end
     return @user
   end
 
@@ -58,7 +65,6 @@ module Loops
           puts "Your password didn't match ... lets try that again!"
         end
       end
-
       puts "Changing Password"
     end
 
