@@ -203,13 +203,13 @@ Should the user be finished with the terminal app, this will safely exit.
 
 ## Gems Used in this package
 
-[sqlite3](https://sqlite3.gem) - This gem allows us to connect to an SQLite DB
+[sqlite3](https://rubygems.org/gems/sqlite3/versions/1.3.11) - This gem allows us to connect to an SQLite DB
 
-[Sequel](https://sequel.gem) - This is a gem which allows easy manipulation of the sql database without the need of injecting SQL code. This gem would allow the same code to be used and connect to multiple databases, but for the purpose of this application it is connected to a local SQLite3 Database.
+[Sequel](https://github.com/jeremyevans/sequel) - This is a gem which allows easy manipulation of the sql database without the need of injecting SQL code. This gem would allow the same code to be used and connect to multiple databases, but for the purpose of this application it is connected to a local SQLite3 Database.
 
-[colorize](https://colourize.gem) - This is used to add colour to the console! Helps things look pretty & errors to stand out.
+[terminal-table](https://github.com/tj/terminal-table) - This is used to add colour to the console! Helps things look pretty & errors to stand out.
 
-[whirly](https://whirly.gem) - This Gem has been used to add a waiting icon when messages are returned
+[whirly](https://rubygems.org/gems/whirly) - This Gem has been used to add a waiting icon when messages are returned
 
 ## Design & Implementation
 
@@ -217,7 +217,7 @@ The idea for this project came from forgetting to sign into the class each day t
 
 I've designed this with ease of use in mind, so that the end user can easily login and mark themselves as attended.
 
-While designing, all features have been added to my trello board [here](https://link.to.trello) and have tasks have been marked off as completed.
+While designing, all features have been added to my trello board [here](https://trello.com/b/TwTf35Ys/attendance-logger) and have tasks have been marked off as completed.
 
 The implementation was done by splitting each section up into different functions for each menu, allowing the login system to effectively moderate what each role has the ability to complete.
 
@@ -235,24 +235,21 @@ I've chosen a local database due to hosting difficulties, for a professional ins
 
 ## File Structure
 
-<pre>├── README.md
-├── StatementOfPurpose.MD
-├── database.db
-├── docs
-│   └── help.md
-├── ppt
-│   └── AttendanceLogger.pptx
-└── src
-    ├── Gemfile
-    ├── Gemfile.lock
-    ├── classes
-    │   ├── log.rb
-    │   └── user.rb
-    ├── config
-    ├── main.rb
-    ├── modules
-    │   ├── database.rb
-    │   ├── helpers.rb
-    │   ├── loops.rb
-    │   └── menu.rb
-    └── test.csv</pre>
+<pre>└── RichardHubbard_T1A2
+         ├── README.md
+         ├── docs
+         │   ├── flow-chart.png
+         ├── install-mac.sh
+         ├── ppt
+         │   └── AttendanceLogger.pptx
+         └── src
+             ├── Gemfile
+             ├── classes
+             │   ├── log.rb
+             │   └── user.rb
+             ├── main.rb
+             └── modules
+                 ├── database.rb
+                 ├── helpers.rb
+                 ├── loops.rb
+                 └── menu.rb</pre>
