@@ -54,9 +54,9 @@ module Loops
       puts "Looks like this is your first run! Lets get that password changed"
       loop do
         puts "Please enter your password now:"
-        pwd = gets.chomp
+        pwd = STDIN.noecho(&:gets).chomp
         puts "Please re-enter your password:"
-        pwd2 = gets.chomp
+        pwd2 = STDIN.noecho(&:gets).chomp
         if pwd == pwd2
           change_password(@role, @user.student_id, @user.email, pwd)
           puts "Password successfully changed!"

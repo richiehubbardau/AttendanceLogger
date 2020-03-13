@@ -137,8 +137,8 @@ module UserMenu
         end
       when 'STATISTICS'
         puts "Enter student ID which you wish to view login stats"
-        s_id = gets.chomp.to_i
-        user = find_user(role, s_id)
+        s_id = gets.chomp
+        user = find_user(s_id.to_i, 'STUDENT')
         if !user.nil?
           show_statistics(user[:student_id])
           puts "Press enter to go back to menu"

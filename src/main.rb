@@ -24,7 +24,6 @@ class MainLoop
 
   def login_loop(error)
     @user = login(error)
-    p @user
     @user.name.nil? ? (puts @error; sleep(2)) : @current = 'password'; @error = nil
   end
 
